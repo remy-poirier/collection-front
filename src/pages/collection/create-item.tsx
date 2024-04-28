@@ -19,6 +19,7 @@ const addItemSchema =  z.object({
   image: z.string().min(1, 'Champ obligatoire'),
   price: z.string().min(1, 'Valeur minimum: 1'),
   url: z.string().min(1, 'Valeur minimum: 1'),
+  count: z.coerce.number().min(1, "1 copie minimum")
 })
 
 export const CreateItem = ({open, onOpenChange, close}: Props) => {
@@ -31,7 +32,8 @@ export const CreateItem = ({open, onOpenChange, close}: Props) => {
       name: 'Coffret Dresseur d\'Élite de La Voie du Maître',
       image: 'https://product-images.s3.cardmarket.com/1016/488304/488304.png',
       url: 'https://www.cardmarket.com/fr/Pokemon/Products/Elite-Trainer-Boxes/Champions-Path-Elite-Trainer-Box?language=2',
-      price: "280"
+      price: "280",
+      count: 1,
     }
   })
 
@@ -58,18 +60,33 @@ export const CreateItem = ({open, onOpenChange, close}: Props) => {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField 
-              name="name"
-              render={({field}) => (
-                <FormItem>
-                  <FormLabel>Nom</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex gap-4">
+              <FormField 
+                name="name"
+                render={({field}) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Nom</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField 
+                name="count"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Nombre d'exemplaires</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <FormField 
                 name="image"

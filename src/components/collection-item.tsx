@@ -7,6 +7,8 @@ import { BadgeEuro, Boxes, CalendarCheck, SquareArrowOutUpRightIcon, TrendingUp 
 import { Link, useOutletContext } from "react-router-dom"
 import { toast } from "sonner"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { useState } from "react"
+import { EditNb } from "./edit-nb"
 
 const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
   year: 'numeric',
@@ -21,6 +23,12 @@ interface Props {
 export const CollectionItem = ({item}: Props) => {
   const { deleteItem, isDeleting } = useDeleteItem()
   const {user} = useOutletContext<LoggedOutletContext>()
+
+  const [showEditNbDialog, setShowEditNbDialog] = useState(false)
+
+  const toggleShowEditNbDialog = () => setShowEditNbDialog(prev => !prev)
+  const onShowEditDialogChange = (open: boolean) => setShowEditNbDialog(open)
+  const close = () => setShowEditNbDialog(false)
 
   const onDeleteItem = () => {
     deleteItem(item.id)
@@ -57,7 +65,7 @@ export const CollectionItem = ({item}: Props) => {
           <TrendingUp size={18} /> <span>{item.highestPrice} €</span>
         </div>
         {item.count && (
-          <div className="flex items-center gap-4">
+          <div onClick={toggleShowEditNbDialog} className="flex items-center gap-4 hover:underline cursor-pointer">
             <Boxes size={18} /> <span>{item.count} en votre possession</span>
           </div>
         )}
@@ -70,6 +78,9 @@ export const CollectionItem = ({item}: Props) => {
           <Button size="sm" loading={isDeleting} onClick={onDeleteItem} variant="destructive">Supprimer</Button>
         )}
       </CardFooter>
+      {item.count && (
+        <EditNb id={item.id} nbItems={item.count} onOpenChange={onShowEditDialogChange} open={showEditNbDialog} close={close} />
+      )}
     </Card>
   )
 }
