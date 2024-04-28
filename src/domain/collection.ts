@@ -11,6 +11,7 @@ export interface Item {
   updatedAt: string
   lastPrice: number
   users?: Pick<User, "id" | "email">[]
+  count?: number
 }
 
 export interface ItemCreation {

@@ -3,7 +3,7 @@ import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { LoggedOutletContext } from "@/conf/logged-route"
 import { Item } from "@/domain/collection"
 import { useDeleteItem } from "@/hooks/admin/items/delete-item"
-import { BadgeEuro, CalendarCheck, SquareArrowOutUpRightIcon, TrendingUp } from "lucide-react"
+import { BadgeEuro, Boxes, CalendarCheck, SquareArrowOutUpRightIcon, TrendingUp } from "lucide-react"
 import { Link, useOutletContext } from "react-router-dom"
 import { toast } from "sonner"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
@@ -56,6 +56,11 @@ export const CollectionItem = ({item}: Props) => {
         <div className="flex items-center gap-4">
           <TrendingUp size={18} /> <span>{item.highestPrice} €</span>
         </div>
+        {item.count && (
+          <div className="flex items-center gap-4">
+            <Boxes size={18} /> <span>{item.count} en votre possession</span>
+          </div>
+        )}
       </CardContent>
       <CardFooter className="flex gap-2 justify-end">
         <a href={item.url} target="_blank">
