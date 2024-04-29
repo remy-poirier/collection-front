@@ -151,7 +151,7 @@ function App() {
           </div>
           <Link to="/">
             <span className="sm:text-md md:text-xl font-bold">
-              MoneyManager
+              Mythica
             </span>
           </Link>
           <div className="hidden md:flex items-center gap-4">

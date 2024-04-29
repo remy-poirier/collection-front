@@ -22,7 +22,7 @@ const ItemStat = ({item, label}: {
     </div>
     <div className="stat-title">{label}</div>
     <div className="stat-value text-lg text-primary">{item.name}</div>
-    <div className="stat-desc">Valeur ${item.lastPrice} €</div>
+    <div className="stat-desc">Valeur {item.lastPrice} €</div>
   </div>
 )
 

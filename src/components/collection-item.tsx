@@ -2,13 +2,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { LoggedOutletContext } from "@/conf/logged-route"
 import { Item } from "@/domain/collection"
-import { useDeleteItem } from "@/hooks/admin/items/delete-item"
-import { BadgeEuro, Boxes, CalendarCheck, SquareArrowOutUpRightIcon, TrendingUp } from "lucide-react"
+import {BadgeEuro, Boxes, CalendarCheck, Repeat, SquareArrowOutUpRightIcon, TrendingUp} from "lucide-react"
 import { Link, useOutletContext } from "react-router-dom"
-import { toast } from "sonner"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { useState } from "react"
 import { EditNb } from "./edit-nb"
+import {EditPrice} from "@/components/edit-price.tsx"
+import {DeleteItem} from "@/components/ui/delete-item.tsx";
 
 const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
   year: 'numeric',
@@ -21,23 +21,23 @@ interface Props {
 }
 
 export const CollectionItem = ({item}: Props) => {
-  const { deleteItem, isDeleting } = useDeleteItem()
   const {user} = useOutletContext<LoggedOutletContext>()
 
   const [showEditNbDialog, setShowEditNbDialog] = useState(false)
+  const [showEditPriceDialog, setShowEditPriceDialog] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const toggleShowEditNbDialog = () => setShowEditNbDialog(prev => !prev)
   const onShowEditDialogChange = (open: boolean) => setShowEditNbDialog(open)
-  const close = () => setShowEditNbDialog(false)
+  const closeEditNbDialog = () => setShowEditNbDialog(false)
 
-  const onDeleteItem = () => {
-    deleteItem(item.id)
-      .then(() => {
-        toast.success("Félicitations", {
-          description: "Objet supprimé avec succès"
-        })
-    })
-  } 
+  const toggleShowEditPriceDialog = () => setShowEditPriceDialog(prev => !prev)
+  const onShowEditPriceDialogChange = (open: boolean) => setShowEditPriceDialog(open)
+  const closeEditPriceDialog = () => setShowEditPriceDialog(false)
+
+  const toggleShowDeleteDialog = () => setShowDeleteDialog(prev => !prev)
+  const onShowDeleteDialogChange = (open: boolean) => setShowDeleteDialog(open)
+  const closeDeleteDialog = () => setShowDeleteDialog(false)
 
   return (
     <Card >
@@ -55,32 +55,53 @@ export const CollectionItem = ({item}: Props) => {
         </span>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <div className="flex items-center gap-4">
-          <CalendarCheck size={18} /> <span>{dateFormatter.format(new Date(item.updatedAt))}</span>
+        <div className="flex">
+          <div className="tooltip flex items-center gap-4" data-tip="Dernière actualisation">
+            <CalendarCheck size={18}/> <span>{dateFormatter.format(new Date(item.updatedAt))}</span>
+          </div>
         </div>
-        <div className="flex items-center gap-4">
-          <BadgeEuro size={18} /> <span>{item.lastPrice} €</span>
+        <div className="flex">
+          <div className="tooltip flex items-center gap-4" data-tip="Prix actuel">
+            <BadgeEuro size={18}/> <span>{item.lastPrice} €</span>
+          </div>
         </div>
-        <div className="flex items-center gap-4">
-          <TrendingUp size={18} /> <span>{item.highestPrice} €</span>
+        <div className="flex">
+          <div className="flex items-center gap-4 tooltip" data-tip="Prix le plus haut constaté">
+            <TrendingUp size={18}/> <span>{item.highestPrice} €</span>
+          </div>
         </div>
         {item.count && (
-          <div onClick={toggleShowEditNbDialog} className="flex items-center gap-4 hover:underline cursor-pointer">
-            <Boxes size={18} /> <span>{item.count} en votre possession</span>
+          <div
+            onClick={toggleShowEditNbDialog}
+            className="flex tooltip items-center gap-4 hover:underline cursor-pointer"
+            data-tip="Mettre à jour votre votre stock"
+          >
+            <Boxes size={18}/> <span>{item.count} en votre possession</span>
           </div>
         )}
       </CardContent>
       <CardFooter className="flex gap-2 justify-end">
-        <a href={item.url} target="_blank">
-          <Button size="icon-sm" variant="ghost"><SquareArrowOutUpRightIcon size={16} /></Button>
-        </a>
+        <div className="tooltip" data-tip="Consulter la fiche de l'objet">
+          <a href={item.url} target="_blank">
+            <Button size="icon-sm" variant="ghost"><SquareArrowOutUpRightIcon size={16}/></Button>
+          </a>
+        </div>
         {user.isAdmin && (
-          <Button size="sm" loading={isDeleting} onClick={onDeleteItem} variant="destructive">Supprimer</Button>
+          <>
+            <div className="tooltip" data-tip="Actualiser le prix de l'objet">
+              <Button variant="secondary" onClick={toggleShowEditPriceDialog} size="icon-sm">
+                <Repeat size={16} />
+              </Button>
+            </div>
+            <Button size="sm" onClick={toggleShowDeleteDialog} variant="destructive">Supprimer</Button>
+          </>
         )}
       </CardFooter>
       {item.count && (
-        <EditNb id={item.id} nbItems={item.count} onOpenChange={onShowEditDialogChange} open={showEditNbDialog} close={close} />
+        <EditNb id={item.id} nbItems={item.count} onOpenChange={onShowEditDialogChange} open={showEditNbDialog} close={closeEditNbDialog} />
       )}
+      <EditPrice open={showEditPriceDialog} close={closeEditPriceDialog} onOpenChange={onShowEditPriceDialogChange} price={item.lastPrice} id={item.id} />
+      <DeleteItem id={item.id} open={showDeleteDialog} onOpenChange={onShowDeleteDialogChange} close={closeDeleteDialog} />
     </Card>
   )
 }

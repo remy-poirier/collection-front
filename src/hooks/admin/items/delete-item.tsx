@@ -31,6 +31,7 @@ export const useDeleteItem = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['account']})
       queryClient.invalidateQueries({queryKey: ['adminItems']})
+      queryClient.invalidateQueries({queryKey: ['collection']})
     }
   })
 
