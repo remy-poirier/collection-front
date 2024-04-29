@@ -69,16 +69,19 @@ body {
   border-width: 1px;
 }
 
-.dark .stats {
+.stats {
   background-color: hsl(var(--background));
-  border-color: var(--border);
 }
 
-.dark .stat {
+.stat {
   background-color: hsl(var(--card));
   border-color: var(--border)
 }
 
 .dark .stat-title, .dark .stat-desc {
   color: white
+}
+
+.light .stat-title, .light .stat-desc {
+  color: hsl(var(--muted-foreground))
 }

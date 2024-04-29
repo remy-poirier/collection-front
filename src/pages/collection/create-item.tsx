@@ -29,10 +29,10 @@ export const CreateItem = ({open, onOpenChange, close}: Props) => {
     resolver: zodResolver(addItemSchema),
     mode: 'onChange',
     defaultValues: {
-      name: 'Coffret Dresseur d\'Élite de La Voie du Maître',
-      image: 'https://product-images.s3.cardmarket.com/1016/488304/488304.png',
-      url: 'https://www.cardmarket.com/fr/Pokemon/Products/Elite-Trainer-Boxes/Champions-Path-Elite-Trainer-Box?language=2',
-      price: "280",
+      name: '',
+      image: '',
+      url: '',
+      price: "1",
       count: 1,
     }
   })
@@ -92,7 +92,7 @@ export const CreateItem = ({open, onOpenChange, close}: Props) => {
                 name="image"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Illustration Cardmarket</FormLabel>
+                    <FormLabel>Illustration</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -104,7 +104,7 @@ export const CreateItem = ({open, onOpenChange, close}: Props) => {
                 name="url"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>URL Cardmarket</FormLabel>
+                    <FormLabel>URL de suivi</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>

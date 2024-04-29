@@ -48,7 +48,7 @@ export const Dashboard = () => {
               <div className="stat-figure text-primary">
                 <PiggyBank size={32} />
               </div>
-              <div className="stat-title">Pactole</div>
+              <div className="stat-title">Valeur totale</div>
               <div className="stat-value text-primary">{isLoading ? 0 : statistics.totalValue.amount} €</div>
               <div className="stat-desc">Dernière actualisation le {statistics.totalValue.date}</div>
             </div>
@@ -64,7 +64,7 @@ export const Dashboard = () => {
         </div>
         
         <div className="flex flex-col gap-4">
-          <span className="font-bold text-center">Évolution de votre pactole</span>
+          <span className="font-bold text-center">Évolution de votre collection</span>
           <Card className="shadow p-4 rounded-lg">
             <UserCollectionChart totalValue={user.totalValue} />
           </Card>
