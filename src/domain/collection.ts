@@ -14,6 +14,8 @@ export interface Item {
   count?: number
 }
 
+export type ItemWithCount = Item & { count: number }
+
 export interface ItemCreation {
   name: string
   url: string

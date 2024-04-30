@@ -2,13 +2,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { LoggedOutletContext } from "@/conf/logged-route"
 import { Item } from "@/domain/collection"
-import {BadgeEuro, Boxes, CalendarCheck, Repeat, SquareArrowOutUpRightIcon, TrendingUp} from "lucide-react"
+import {BadgeEuro, Boxes, CalendarCheck, Repeat, SquareArrowOutUpRightIcon, Trash2, TrendingUp} from "lucide-react"
 import { Link, useOutletContext } from "react-router-dom"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { useState } from "react"
 import { EditNb } from "./edit-nb"
 import {EditPrice} from "@/components/edit-price.tsx"
 import {DeleteItem} from "@/components/ui/delete-item.tsx";
+import RemoveFromCollection from "@/components/remove-from-collection.tsx";
 
 const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
   year: 'numeric',
@@ -26,6 +27,7 @@ export const CollectionItem = ({item}: Props) => {
   const [showEditNbDialog, setShowEditNbDialog] = useState(false)
   const [showEditPriceDialog, setShowEditPriceDialog] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [showRemoveFromCollectionDialog, setShowRemoveFromCollectionDialog] = useState(false)
 
   const toggleShowEditNbDialog = () => setShowEditNbDialog(prev => !prev)
   const onShowEditDialogChange = (open: boolean) => setShowEditNbDialog(open)
@@ -38,6 +40,10 @@ export const CollectionItem = ({item}: Props) => {
   const toggleShowDeleteDialog = () => setShowDeleteDialog(prev => !prev)
   const onShowDeleteDialogChange = (open: boolean) => setShowDeleteDialog(open)
   const closeDeleteDialog = () => setShowDeleteDialog(false)
+
+  const toggleShowRemoveFromCollectionDialog = () => setShowRemoveFromCollectionDialog(prev => !prev)
+  const onShowRemoveFromCollectionDialogChange = (open: boolean) => setShowRemoveFromCollectionDialog(open)
+  const closeRemoveFromCollectionDialog = () => setShowRemoveFromCollectionDialog(false)
 
   return (
     <Card >
@@ -86,13 +92,17 @@ export const CollectionItem = ({item}: Props) => {
             <Button size="icon-sm" variant="ghost"><SquareArrowOutUpRightIcon size={16}/></Button>
           </a>
         </div>
+        <div className="tooltip" data-tip="Supprimer de ma collection">
+          <Button onClick={toggleShowRemoveFromCollectionDialog} size="sm" variant="destructive"><Trash2 size={16}/></Button>
+        </div>
         {user.isAdmin && (
           <>
             <div className="tooltip" data-tip="Actualiser le prix de l'objet">
               <Button variant="secondary" onClick={toggleShowEditPriceDialog} size="icon-sm">
-                <Repeat size={16} />
+                <Repeat size={16}/>
               </Button>
             </div>
+
             <Button size="sm" onClick={toggleShowDeleteDialog} variant="destructive">Supprimer</Button>
           </>
         )}
@@ -102,6 +112,7 @@ export const CollectionItem = ({item}: Props) => {
       )}
       <EditPrice open={showEditPriceDialog} close={closeEditPriceDialog} onOpenChange={onShowEditPriceDialogChange} price={item.lastPrice} id={item.id} />
       <DeleteItem id={item.id} open={showDeleteDialog} onOpenChange={onShowDeleteDialogChange} close={closeDeleteDialog} />
+      <RemoveFromCollection item={item} open={showRemoveFromCollectionDialog} onOpenChange={onShowRemoveFromCollectionDialogChange} close={closeRemoveFromCollectionDialog} />
     </Card>
   )
 }

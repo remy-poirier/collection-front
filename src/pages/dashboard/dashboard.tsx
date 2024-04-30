@@ -3,12 +3,12 @@ import { UserCollectionChart } from "./chart"
 import { useOutletContext } from "react-router-dom"
 import { LoggedOutletContext } from "@/conf/logged-route"
 import { Card } from "@/components/ui/card"
-import { Item } from "@/domain/collection"
+import {ItemWithCount} from "@/domain/collection"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BookOpen, PiggyBank } from "lucide-react"
 
 const ItemStat = ({item, label}: {
-  item: Item
+  item: ItemWithCount
   label: string
 }) => (
   <div className="stat">
@@ -22,7 +22,7 @@ const ItemStat = ({item, label}: {
     </div>
     <div className="stat-title">{label}</div>
     <div className="stat-value text-lg text-primary">{item.name}</div>
-    <div className="stat-desc">Valeur {item.lastPrice} €</div>
+    <div className="stat-desc">Valeur {item.lastPrice} € {item.count > 1 && `(Vous en possédez ${item.count})`}</div>
   </div>
 )
 

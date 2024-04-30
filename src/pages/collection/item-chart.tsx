@@ -1,10 +1,20 @@
 import { Item } from "@/domain/collection"
 import { Common } from "@/operations/common"
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import {CircleSlash} from "lucide-react";
 
 export const ItemChart = ({prices}: {
   prices: Item["prices"]
 }) => {
+
+  if(Object.keys(prices).length < 2) {
+    return (
+      <div className="flex items-center flex-col text-center gap-6">
+        <CircleSlash size={30} />
+        <span className="text-muted-foreground italic">Données insuffisantes pour générer un graphique</span>
+      </div>
+    )
+  }
 
   const chartData = Common.buildChartData(prices)
 

@@ -1,7 +1,13 @@
 import { useParams } from "react-router-dom"
 import { ErrorPage } from "../error/error"
 import { useGetCollectionItemById } from "@/hooks/collection/by-id"
-import { CalendarDays, Group, PiggyBank, TrendingUp, UsersRound } from "lucide-react"
+import {
+  CalendarDays,
+  PiggyBank,
+  SquareArrowOutUpRight,
+  TrendingUp,
+  UsersRound
+} from "lucide-react"
 import { Common } from "@/operations/common"
 import { Card } from "@/components/ui/card"
 import { ItemChart } from "./item-chart"
@@ -22,12 +28,14 @@ export const CollectionItem = () => {
     )
   }
 
-
   return (
     <div className="flex flex-col gap-6">
-      <p className="font-bold text-xl">{item.name}</p>
+      <p className="font-bold flex gap-4 items-center text-xl">
+        {item.name}
+        <a href={item.url} className="hover:text-primary" target="_blank"><SquareArrowOutUpRight /></a>
+      </p>
       <div className="stats overflow-hidden shadow h-fit">
-      <div className="stat">
+        <div className="stat">
           <div className="stat-figure text-primary">
             <PiggyBank />
           </div>
@@ -56,10 +64,16 @@ export const CollectionItem = () => {
           <div className="stat-value text-lg text-primary">{item.users?.length ?? 0}</div>
         </div>
       </div>
-      <span className="font-bold text-lg">Graphique d'évolution du prix</span>
-      <Card className="p-4">
-        <ItemChart prices={item.prices} />
-      </Card>
+      <div className="flex gap-6">
+
+        <div className="flex-1 flex flex-col text-center gap-4">
+          <span className="font-bold text-lg">Graphique d'évolution du prix</span>
+          <Card className="p-4">
+            <ItemChart prices={item.prices}/>
+          </Card>
+        </div>
+
+      </div>
     </div>
-  )  
+  )
 }

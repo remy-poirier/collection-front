@@ -78,10 +78,24 @@ body {
   border-color: var(--border)
 }
 
+.light .stat {
+  border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)))
+}
+
 .dark .stat-title, .dark .stat-desc {
   color: white
 }
 
 .light .stat-title, .light .stat-desc {
   color: hsl(var(--muted-foreground))
+}
+
+.steps .step:after {
+  height: 1.5rem;
+  width: 1.5rem;
+  font-size: 0.75rem;
+}
+
+.steps .step {
+  font-size: 0.90rem;
 }

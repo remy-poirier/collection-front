@@ -1,5 +1,5 @@
 import { Common } from "@/operations/common"
-import { Item } from "./collection"
+import {ItemWithCount} from "./collection"
 
 export interface Statistics {
   nbItems: number
@@ -7,7 +7,7 @@ export interface Statistics {
     amount: number
     date: string
   }
-  mostValuableItems: Item[]
+  mostValuableItems: ItemWithCount[]
 }
 
 export const defaultStatistics: Statistics = {
