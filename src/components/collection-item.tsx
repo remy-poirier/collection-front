@@ -10,6 +10,7 @@ import { EditNb } from "./edit-nb"
 import {EditPrice} from "@/components/edit-price.tsx"
 import {DeleteItem} from "@/components/ui/delete-item.tsx";
 import RemoveFromCollection from "@/components/remove-from-collection.tsx";
+import {userOperations} from "@/operations/user.ts";
 
 const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
   year: 'numeric',
@@ -92,23 +93,24 @@ export const CollectionItem = ({item}: Props) => {
             <Button size="icon-sm" variant="ghost"><SquareArrowOutUpRightIcon size={16}/></Button>
           </a>
         </div>
+        {userOperations.canUpdateItemPrice(user, item.userId) && (
+          <div className="tooltip" data-tip="Actualiser le prix de l'objet">
+            <Button variant="secondary" onClick={toggleShowEditPriceDialog} size="icon-sm">
+              <Repeat size={16}/>
+            </Button>
+          </div>
+        )}
         <div className="tooltip" data-tip="Supprimer de ma collection">
-          <Button onClick={toggleShowRemoveFromCollectionDialog} size="sm" variant="destructive"><Trash2 size={16}/></Button>
+          <Button onClick={toggleShowRemoveFromCollectionDialog} size="sm" variant="destructive"><Trash2
+            size={16}/></Button>
         </div>
         {user.isAdmin && (
-          <>
-            <div className="tooltip" data-tip="Actualiser le prix de l'objet">
-              <Button variant="secondary" onClick={toggleShowEditPriceDialog} size="icon-sm">
-                <Repeat size={16}/>
-              </Button>
-            </div>
-
-            <Button size="sm" onClick={toggleShowDeleteDialog} variant="destructive">Supprimer</Button>
-          </>
+          <Button size="sm" onClick={toggleShowDeleteDialog} variant="destructive">Supprimer</Button>
         )}
       </CardFooter>
       {item.count && (
-        <EditNb id={item.id} nbItems={item.count} onOpenChange={onShowEditDialogChange} open={showEditNbDialog} close={closeEditNbDialog} />
+        <EditNb id={item.id} nbItems={item.count} onOpenChange={onShowEditDialogChange} open={showEditNbDialog}
+                close={closeEditNbDialog}/>
       )}
       <EditPrice open={showEditPriceDialog} close={closeEditPriceDialog} onOpenChange={onShowEditPriceDialogChange} price={item.lastPrice} id={item.id} />
       <DeleteItem id={item.id} open={showDeleteDialog} onOpenChange={onShowDeleteDialogChange} close={closeDeleteDialog} />

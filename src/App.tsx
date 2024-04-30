@@ -11,7 +11,7 @@ import { MenuIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar"
 import { ModeToggle } from "./components/mode-toggle"
-import { getLastKnowTotalValue } from "./operations/user"
+import { userOperations } from "./operations/user"
 
 function App() {
 
@@ -181,7 +181,7 @@ function App() {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>
                       Connecté(e) en tant que {user.fullName ?? user.email}{' '} <br />
-                      <span className="text-xs font-normal">Pactole: {getLastKnowTotalValue(user.totalValue)} €</span>
+                      <span className="text-xs font-normal">Pactole: {userOperations.getLastKnowTotalValue(user.totalValue)} €</span>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {user.isAdmin && (

@@ -12,6 +12,8 @@ export interface Item {
   lastPrice: number
   users?: Pick<User, "id" | "email">[]
   count?: number
+  userId: string
+  status?: string
 }
 
 export type ItemWithCount = Item & { count: number }
