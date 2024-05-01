@@ -24,3 +24,26 @@ export interface ItemCreation {
   price: number
   image: string
 }
+
+export interface SearchResult<T> {
+  meta: {
+    currentPage: number
+    firstPage: number
+    firstPageUrl: string
+    lastPage: number
+    lastPageUrl: string
+    nextPageUrl?: string
+    perPage: number
+    previousPageUrl?: string
+    total: number
+  }
+  data: T[]
+}
+
+export interface ItemSearch {
+  search?: string
+  orderBy: 'asc' | 'desc'
+  sortBy: string
+  page: number
+  limit: number
+}

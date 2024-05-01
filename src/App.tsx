@@ -12,6 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar"
 import { ModeToggle } from "./components/mode-toggle"
 import { userOperations } from "./operations/user"
+import clsx from "clsx"
 
 function App() {
 
@@ -24,6 +25,8 @@ function App() {
 
   const location = useLocation()
   const navigate = useNavigate()
+
+  const isHome = location.pathname === "/"
 
   useEffect(() => {
     if (showMobileSheet) setShowMobileSheet(false)
@@ -225,7 +228,12 @@ function App() {
       </header>
       <div className="relative flex flex-1 flex-col bg-background">
         <main className="flex flex-col flex-1">
-          <div className="container px-4 md:px-8 relative max-w-screen-2xl flex-1 flex flex-col">
+          <div 
+            className={clsx(
+              "container relative flex-1 flex flex-col mx-0 px-0", 
+              !isHome && 'px-4 md:px-8 max-w-screen-2xl'
+            )}
+          >
             <section className="flex flex-col flex-1 py-2">
               <Outlet />
             </section>

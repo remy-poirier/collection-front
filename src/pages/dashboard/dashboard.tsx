@@ -31,7 +31,7 @@ export const Dashboard = () => {
   const {user} = useOutletContext<LoggedOutletContext>()
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="container mx-auto flex flex-col gap-2">
       <span className="text-xl font-bold">Tableau de bord</span>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-4">

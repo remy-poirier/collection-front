@@ -1,12 +1,21 @@
 import { common } from '@/conf/common'
-import { useQuery } from 'react-query'
+import { useQuery} from 'react-query'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { Item } from '@/domain/collection'
+import { ItemSearch, ItemWithCount, SearchResult } from '@/domain/collection'
+import { useDebounce } from "@uidotdev/usehooks";
 
-const getCollectionFn = async (): Promise<Item[]> => {
+const getCollectionFn = (itemSearch: ItemSearch): Promise<SearchResult<ItemWithCount>> => {
+  const url = new URL(`${common.apiUrl}/collection`)
 
-  return fetch(`${common.apiUrl}/collection`, {
+  Object.keys(itemSearch).forEach((key) => {
+    const value = itemSearch[key as keyof ItemSearch]
+    if(value !== undefined) {
+      url.searchParams.append(key, String(value))
+    }
+  })
+  
+  return fetch(url, {
     method: 'GET',
     credentials: 'include',
   })
@@ -24,12 +33,15 @@ const getCollectionFn = async (): Promise<Item[]> => {
     })
 }
 
-export const useGetCollection = () => {
-  const { data, isLoading, isError, error } = useQuery(
-    'collection',
-    getCollectionFn,
-    {},
-  )
+export const useGetCollection = (search: ItemSearch) => {
+
+  const debouncedSearch = useDebounce(search.search, 200)
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryFn: () => getCollectionFn(search),
+    queryKey: ['collection', search.limit, search.orderBy, search.page, search.sortBy, debouncedSearch],
+    keepPreviousData: true,
+  })
 
   useEffect(() => {
     if (isError && error) {
@@ -40,7 +52,7 @@ export const useGetCollection = () => {
   }, [isError, error])
 
   return {
-    collection: data ?? [],
+    collection: data,
     isLoading,
   }
 }

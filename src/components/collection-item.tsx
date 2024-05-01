@@ -47,8 +47,8 @@ export const CollectionItem = ({item}: Props) => {
   const closeRemoveFromCollectionDialog = () => setShowRemoveFromCollectionDialog(false)
 
   return (
-    <Card >
-      <CardHeader className="flex flex-row gap-4 items-center">
+    <Card>
+      <CardHeader className="flex flex-row gap-4 py-3 items-center">
         <Avatar className="w-[3rem] h-[3rem] rounded-xl">
           <AvatarImage src={item.image} alt={item.name} />
           <AvatarFallback className="bg-primary text-primary-foreground">
@@ -87,7 +87,7 @@ export const CollectionItem = ({item}: Props) => {
           </div>
         )}
       </CardContent>
-      <CardFooter className="flex gap-2 justify-end">
+      <CardFooter className="flex gap-2 justify-end pb-3">
         <div className="tooltip" data-tip="Consulter la fiche de l'objet">
           <a href={item.url} target="_blank">
             <Button size="icon-sm" variant="ghost"><SquareArrowOutUpRightIcon size={16}/></Button>
