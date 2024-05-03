@@ -2,10 +2,13 @@ import { Item } from "@/domain/collection"
 import { Common } from "@/operations/common"
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import {CircleSlash} from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
 
 export const ItemChart = ({prices}: {
   prices: Item["prices"]
 }) => {
+
+  const { theme } = useTheme()
 
   if(Object.keys(prices).length < 2) {
     return (
@@ -17,6 +20,7 @@ export const ItemChart = ({prices}: {
   }
 
   const chartData = Common.buildChartData(prices)
+  const bgColor = theme === "light" ? "white" : "#020817"
 
   return (
     <ResponsiveContainer width="100%" height="100%" minHeight={300}>
@@ -46,7 +50,7 @@ export const ItemChart = ({prices}: {
           tickLine={false}
         />
         <YAxis type="number" domain={['dataMin', 'dataMax']} tickLine={false} />
-        <Tooltip formatter={(value: number) => [`${value} €`, 'Montant']} labelFormatter={(_, d) => {
+        <Tooltip contentStyle={{ backgroundColor: bgColor, borderColor: bgColor, borderRadius: "0.75rem" }} labelClassName="text-muted-foreground text-left" formatter={(value: number) => [`${value} €`, 'Montant']} labelFormatter={(_, d) => {
           if(d[0]?.payload) {
             return d[0].payload.date
           }

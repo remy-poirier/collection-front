@@ -49,12 +49,16 @@ export const ActionsCell = ({item}: Props) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem>
-            <Link to={`${item.id}`}>Accéder aux détails</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <a href={item.url} target="_blank">Consulter la fiche</a>
-          </DropdownMenuItem>
+          <Link to={`${item.id}`}>
+            <DropdownMenuItem>
+              Accéder aux détails
+            </DropdownMenuItem>
+          </Link>
+          <a href={item.url} target="_blank">
+            <DropdownMenuItem>
+              Consulter la fiche
+            </DropdownMenuItem>
+          </a>
           {!!item.userId && user.id === item.userId && (
             <DropdownMenuItem onClick={toggleShowEditPriceDialog}>
               Mettre à jour le prix de l'objet
@@ -78,14 +82,21 @@ export const ActionsCell = ({item}: Props) => {
               </DropdownMenuItem>
             </>
           )}
-        
         </DropdownMenuContent>
       </DropdownMenu>
-      <EditPrice open={showEditPriceDialog} close={closeEditPriceDialog} onOpenChange={onShowEditPriceDialogChange} price={item.lastPrice} id={item.id} />
-      <EditNb id={item.id} nbItems={item.count} onOpenChange={onShowEditDialogChange} open={showEditNbDialog}
-              close={closeEditNbDialog}/>
-      <RemoveFromCollection item={item} open={showRemoveFromCollectionDialog} onOpenChange={onShowRemoveFromCollectionDialogChange} close={closeRemoveFromCollectionDialog} />
-      <DeleteItem id={item.id} open={showDeleteDialog} onOpenChange={onShowDeleteDialogChange} close={closeDeleteDialog} />
+      {showEditPriceDialog && (
+        <EditPrice open={showEditPriceDialog} close={closeEditPriceDialog} onOpenChange={onShowEditPriceDialogChange} price={item.lastPrice} id={item.id} />
+      )}
+      {showEditNbDialog && (
+        <EditNb id={item.id} nbItems={item.count} onOpenChange={onShowEditDialogChange} open={showEditNbDialog}
+          close={closeEditNbDialog}/>
+      )}
+      {showRemoveFromCollectionDialog && (
+        <RemoveFromCollection item={item} open={showRemoveFromCollectionDialog} onOpenChange={onShowRemoveFromCollectionDialogChange} close={closeRemoveFromCollectionDialog} />
+      )}
+      {showDeleteDialog && (
+        <DeleteItem id={item.id} open={showDeleteDialog} onOpenChange={onShowDeleteDialogChange} close={closeDeleteDialog} />
+      )}
     </>
   )
 }
