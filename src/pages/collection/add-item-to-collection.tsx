@@ -26,6 +26,12 @@ const AddItemToCollection = ({ open, onOpenChange, close }: Props) => {
   const selectItem = (value: Item) => setSelectedItem(value)
   const resetSelectedItem = () => setSelectedItem(null)
 
+
+  const onAddSuccess = () => {
+    setMode(null)
+    close()
+  }
+
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange} >
       <AlertDialogContent className="max-w-xl w-full">
@@ -44,21 +50,21 @@ const AddItemToCollection = ({ open, onOpenChange, close }: Props) => {
 
         {mode === MODE.CREATE && (
           <CreateMode
-            onSuccess={close}
+            onSuccess={onAddSuccess}
             back={() => setMode(null)}
           />
         )}
 
-        {(mode === MODE.SELECT && selectedItem) && <AttachItem onSuccess={close} item={selectedItem} back={() => setMode(null)} />}
+        {(mode === MODE.SELECT && selectedItem) && <AttachItem onSuccess={onAddSuccess} item={selectedItem} back={() => setMode(null)} />}
 
-          {mode === null && (
-            <>
-              <Separator/>
-              <AlertDialogFooter>
-                  <Button variant="outline" onClick={close}>Fermer</Button>
-              </AlertDialogFooter>
-            </>
-          )}
+        {mode === null && (
+          <>
+            <Separator/>
+            <AlertDialogFooter>
+              <Button variant="outline" onClick={close}>Fermer</Button>
+            </AlertDialogFooter>
+          </>
+        )}
       </AlertDialogContent>
     </AlertDialog>
   );

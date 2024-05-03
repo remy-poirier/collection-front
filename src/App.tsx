@@ -226,11 +226,11 @@ function App() {
           </div>
         </div>
       </header>
-      <div className="relative flex flex-1 flex-col bg-background">
+      <div className="container relative flex flex-1 flex-col bg-background">
         <main className="flex flex-col flex-1">
           <div 
             className={clsx(
-              "container relative flex-1 flex flex-col mx-0 px-0", 
+              "relative flex-1 flex flex-col mx-0 px-0", 
               !isHome && 'px-4 md:px-8 max-w-screen-2xl'
             )}
           >
